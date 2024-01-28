@@ -1,4 +1,5 @@
-const http = require("http");
+const http = require("https");
+const fs = require("fs");
 const port = 1999;
 const crypto = require('crypto')
 const algorithm = 'aes-128-cbc';
@@ -20,7 +21,7 @@ let sessionsID ={}
  * @param {int} status like 200/500
  * @param {Object} body body of response
  * @param {String} contentType the content type of our response
- */
+*/
 function sendResponse(res, status, body=null, contentType = "application/json") {
     res.writeHead(status, { "Content-type": contentType, "Access-Control-Allow-Origin": "*" })
     res.write(JSON.stringify(body));
@@ -74,7 +75,32 @@ function ExecXOR(array) {
 ////////////////////////////////////////////
 ////////////////////////////////////////////
 // SERVER SIDE
-http.createServer((req,res)=>{
+function decryptX509(password, text) {
+    let algorithm = "aes-256-cbc"
+    password = password.toString();
+    const key = Buffer.concat([Buffer.from(password), Buffer.alloc(32)], 32);
+    const iv = Buffer.from(text.substring(0, 48), 'hex');
+    const encryptedText = Buffer.from(text.substring(32), 'hex');
+    const decipher = crypto.createDecipheriv(algorithm, key, iv);
+    let decrypted = decipher.update(encryptedText);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+    return decrypted.toString();
+}
+
+
+const options = {
+    cert: fs.readFileSync("./x509/cert.pem"),
+    key: crypto.createPrivateKey({
+        'key': fs.readFileSync("./x509/key.pem"),
+        'format': 'pem',
+        'type': 'pkcs8',
+        'cipher': 'aes-256-cbc',
+        'passphrase': 'fidelio'
+    }).toString()
+}
+
+
+http.createServer(options,(req,res)=>{
 
     let body=""
     req.on("data",(c)=>{
@@ -124,8 +150,13 @@ http.createServer((req,res)=>{
             console.log("Session t: "+(tmpM3.t1^t2));
             sendResponse(res,200,M4)
 
-            
+            sessionsID[body.sessionID + body.deviceID] = (tmpM3.t1 ^ t2)
 
+        }
+        if(req.url=="/data"){
+            let sessionKey = sessionsID[body.sessionID+body.deviceID];
+            let x = AES_Decrypt(sessionKey,body.message);
+            console.log(x);
         }
 
     });
