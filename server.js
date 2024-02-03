@@ -6,7 +6,7 @@ const algorithm = 'aes-128-cbc';
 
 
 const IOT_UIDS=["toyota","kia","mazda","jaguar"];
-const KEYS = [10000,20001,30002,40003,50004,60005];
+const KEYS = [2744362711, 1363714183, 9265548211, 2825833815, 9364179924, 9424779947, 4192187843, 7362916736];
 
 let sessionsID ={}
 
@@ -88,17 +88,21 @@ function decryptX509(password, text) {
 }
 
 
-const options = {
-    cert: fs.readFileSync("./x509/cert.pem"),
-    key: crypto.createPrivateKey({
-        'key': fs.readFileSync("./x509/key.pem"),
-        'format': 'pem',
-        'type': 'pkcs8',
-        'cipher': 'aes-256-cbc',
-        'passphrase': 'fidelio'
-    }).toString()
-}
+// const options = {
+//     cert: fs.readFileSync("./x509/cert.pem"),
+//     key: crypto.createPrivateKey({
+//         'key': fs.readFileSync("./x509/key.pem"),
+//         'format': 'pem',
+//         'type': 'pkcs8',
+//         'cipher': 'aes-256-cbc',
+//         'passphrase': 'fidelio'
+//     }).toString()
+// }
 
+const options = {
+    key: fs.readFileSync("./x509/key.pem"),
+    cert: fs.readFileSync("./x509/cert.pem")
+}
 
 http.createServer(options,(req,res)=>{
 
@@ -162,3 +166,4 @@ http.createServer(options,(req,res)=>{
     });
 
 }).listen(port);
+console.log("Server started at port: "+port);

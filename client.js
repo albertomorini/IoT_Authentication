@@ -3,13 +3,13 @@ const algorithm = 'aes-128-cbc';
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0; // TRUST SELF SIGNED
 
 const DEVICE_ID = "toyota";
-const KEYS = [10000, 20001, 30002, 40003, 50004, 60005];
+const KEYS = [2744362711, 1363714183, 9265548211, 2825833815, 9364179924, 9424779947, 4192187843, 7362916736];
 
 
 ///////////// -- HTTP STUFF
 
 function doPostRequest(path, body) {
-    return fetch("http://localhost:1999/" + path, {
+    return fetch("https://localhost:1999/" + path, {
         method: "POST",
         mode: "cors",
         body: JSON.stringify(body),
