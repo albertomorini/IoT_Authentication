@@ -14,7 +14,11 @@ function genKey(length) {
     }
     return result;
 }
-
+/**
+ * @param {int} numberOfKeys 
+ * @param {int} lenghtOfKey 
+ * @returns {Array} the set of keys
+ */
 function createKeyset(numberOfKeys,lenghtOfKey){
     let keyset = []
     for (let i = 0; i < numberOfKeys; i++) {
@@ -24,6 +28,4 @@ function createKeyset(numberOfKeys,lenghtOfKey){
 }
 
 let keyset = createKeyset(200,20);
-console.log("Keyset of "+keyset.length+" elements : ["+ keyset + "]");
-
-// [2744362711,1363714183,9265548211,2825833815,9364179924,9424779947,4192187843,7362916736]
+console.log("Keyset of "+keyset.length+" elements:\n ["+ keyset + "]");
