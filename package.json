@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "eccrypto": "^1.1.6"
+  }
+}

@@ -1,5 +1,6 @@
-.DS_Store
-Authentication_of_IoT_Device_and_IoT_Server_Using_Secure_Vaults.pdf
-.DS_Store
+/**/.DS_Store
 
-x509/*
+papers/
+server/x509/*
+
+node_modules/*
