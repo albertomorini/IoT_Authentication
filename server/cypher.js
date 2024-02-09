@@ -59,7 +59,15 @@ function ECC_Decrypt(publicKey, encrypted){
 var privateKeyA = eccrypto.generatePrivate();
 var publicKeyA = eccrypto.getPublic(privateKeyA);
 
+var privateB = eccrypto.generatePrivate();
+var publicB = eccrypto.getPublic(privateB);
+
+
+
+
+
 let x = ECC_Encrypt(publicKeyA,"alberto");
+
 x.then(async res=>{
     let x = await ECC_Decrypt(privateKeyA, res)
     console.log(x);
