@@ -1,7 +1,10 @@
+// Cryptography class - Alberto Morini 5Feb2024
 const crypto = require('crypto')
 var eccrypto = require('eccrypto'); // for Elliptic curve cryptography 
 
 
+//////////////////////////////////////////////////
+// private methods
 function AES128_Encrypt(password, text) {
     const algorithm = 'aes-128-cbc';
     password = password.toString();
@@ -70,6 +73,8 @@ function ECC_Decrypt(privateKey, blob){
     return Buffer.from(message, "utf-8").toString();
 }
 
+////////////////////////////////////////////////
+//Public methods 
 
 function decrypt(alg,password,message){
     if(alg=="AES128"){

@@ -1,4 +1,6 @@
 //Alberto Morini - 4 Feb 2024 @ 00:31
+const fs = require("fs");
+
 /**
  * @param {int} length of the key
  * @returns {string} a key
@@ -29,3 +31,5 @@ function createKeyset(numberOfKeys,lenghtOfKey){
 
 let keyset = createKeyset(200,20);
 console.log("Keyset of "+keyset.length+" elements:\n ["+ keyset + "]");
+
+fs.writeFileSync("./secretVault.txt",'['+keyset.toString()+']'); //store into filesystem, thus to share with server and client
