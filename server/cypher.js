@@ -47,24 +47,28 @@ function AES256_Decrypt(password, text) {
 }
 
 function ECC_Encrypt(publicKey,text){
-    return eccrypto.encrypt(publicKey, Buffer.from(text))
+    let tmp = eccrypto.encrypt(publicKey, Buffer.from(text))
+    let blob = [
+        Buffer.from(tmp.ciphertext).toString("base64"),
+        Buffer.from(tmp.ephemPublicKey).toString("base64"),
+        Buffer.from(tmp.iv).toString("base64"),
+        Buffer.from(tmp.mac).toString("base64"),
+    ].join('|');
+    return blob;
 }
 
-function ECC_Decrypt(publicKey, encrypted){
-    return eccrypto.decrypt(publicKey, encrypted).then(async (plaintext) => {
-        let x =  await plaintext.toString()
-        return x
-    });
+function ECC_Decrypt(privateKey, blob){
+    let parts = blob.split('|');
+    let cypher = {
+        ciphertext: Uint8Array.from(Buffer.from(parts[0], "base64")),
+        ephemPublicKey: Uint8Array.from(Buffer.from(parts[1], "base64")),
+        iv: Uint8Array.from(Buffer.from(parts[2], "base64")),
+        mac: Uint8Array.from(Buffer.from(parts[3], "base64")),
+    }
+
+    let message = eccrypto.decrypt(privateKey, cypher);
+    return Buffer.from(message, "utf-8").toString();
 }
-
-
-var privateKeyA = eccrypto.generatePrivate();
-var publicKeyA = eccrypto.getPublic(privateKeyA);
-
-let x = ECC_Encrypt(publicKeyA,"alberto");
-x.then(async res=>{
-    let x = await ECC_Decrypt(privateKeyA, res)
-})
 
 
 function decrypt(alg,password,message){

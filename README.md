@@ -12,3 +12,10 @@ Author:
 - Alberto Morini (mat. 2107783)
 
 ALL SOURCE CODE IS PUBLIC ON GITHUB: https://github.com/albertomorini/IoT_Authentication
+
+
+
+---------
+
+
+ECCRYPTO -> linea 190 + my cypher
