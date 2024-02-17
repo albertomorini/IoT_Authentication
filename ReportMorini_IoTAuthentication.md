@@ -56,7 +56,7 @@ The packets will have a JSON content-type and in each there will be some metadat
 Once the shared key has been generated, client will send a string (secret message) to server that will transform the message in upper case and then resend it back.
 
 
-<!-- TODO: inserisci schemino generico -->
+![Alt text](img/Panoramic.png)
 
 In this project has been implemented two method for key exchange: the "3 way handshake" ideated in the paper in replication, and Elliptic Curve with Diffie-Hellman (as a comparison).
 
@@ -154,7 +154,7 @@ As said before, in this project has been implemented also a key-exchange made wi
 
 In this case, client have to know the "public key" of the server, thus to derive the shared secret key. And vice-versa, the server.
 
-<!-- TODO: schemino con iPad? -->
+![Alt text](img/Panoramic.png)
 
 
 ## Performance Analysis

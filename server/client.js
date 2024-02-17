@@ -72,25 +72,25 @@ function ExecXOR(array) {
  * @param {string} message our secret message
  */
 function sendData(sessionID, psw,message){
-    doPostRequest("data",{
+    return doPostRequest("data",{
         alg: alg,
         deviceID: DEVICE_ID,
         sessionID: sessionID,
         message: cyper.encrypt("AES256",psw,message)
     }).then(res=>{
-        console.log("\t\t --- Server data --- \n > "+ res.msg);
+       return console.log("\t\t --- Server data --- \n > "+ res.msg);
     });
 }
 
 
 //STEP 3
 function thirdStep(M3, sessionID,k2,t1) {
-    doPostRequest("third", { //send the challenge M3
+    return doPostRequest("third", { //send the challenge M3
         alg: alg,
         M3: M3,
         deviceID: DEVICE_ID,
         sessionID: sessionID
-    }).then(res => { //receive the challenge M4
+    }).then(async res => { //receive the challenge M4
 
         console.time("fourthStep")
         let M4= cyper.decrypt(
@@ -105,7 +105,7 @@ function thirdStep(M3, sessionID,k2,t1) {
         console.log("Session t: "+ (t1^parseInt(M4.t2))); //t1 xor t2
         
         let secretMessage = "from_deviceID:" + DEVICE_ID + "w/:paperIoTAuth_{pulpfiction_killbill_reservoirdogs}"
-        sendData(sessionID, (t1 ^ parseInt(M4.t2)),secretMessage)
+        return await sendData(sessionID, (t1 ^ parseInt(M4.t2)),secretMessage)
     })
 
 }
@@ -113,13 +113,15 @@ function thirdStep(M3, sessionID,k2,t1) {
 // STEP 1: client start the authentication 
 function firstStep(deviceID, sessionID) {
 
-    doPostRequest("first", { //do the first step (sending deviceID,sessionID)
+    return doPostRequest("first", { //do the first step (sending deviceID,sessionID)
         alg: alg, //AES128 or AES256
         deviceID: deviceID,
         sessionID: sessionID
-    }).then(res => { // receive the first challenge "M2"
+    }).then(async res => { // receive the first challenge "M2"
 
         console.time("secondStep")
+        var start = Date.now()
+
         let k1 = ExecXOR(res.indexKeys); //to the xor of C1(=indexKeys)
 
         let t1 = GetRandomInt();
@@ -136,15 +138,12 @@ function firstStep(deviceID, sessionID) {
         );
         let k2= ExecXOR(C2);
         console.timeEnd("secondStep")
-        thirdStep(M3, sessionID,k2,t1); //sending to server the third step
+        return await thirdStep(M3, sessionID,k2,t1); //sending to server the third step
 
     })
 
 }
 
-// console.time("globalSW");
-// firstStep(DEVICE_ID, 1);
-// console.timeEnd("globalSW")
 
 ////////////////////////////////////////////////////////////
 
@@ -164,12 +163,27 @@ async function doECCDH(deviceID, sessionID){
     console.log("ECCDH secret shared key is: "+sharedK.toString("hex"));
 
     let secretMessage = "from_deviceID:" + DEVICE_ID + "_w/:ECCDH_{akira_berserk_invincible}";
-    sendData(sessionID, sharedK, secretMessage); //shared key is ok --> send data (secret message)
+    return await sendData(sessionID, sharedK, secretMessage); //shared key is ok --> send data (secret message)
 }
 
-console.time("ECC_total");
-doECCDH(DEVICE_ID, 1)
-console.timeEnd("ECC_total")
 
+/**
+ * execute the key exchanges several times
+ * @param {int} cycles numbers of test
+ */
+async function start(cycles){
 
-//TODO: cycle through algorithm and take time
+    console.log("________________________________________________________");
+    console.log("\t Test "+ cycles+ " time the algorithm of the paper");
+    for (let i = 0; i < cycles; i++) {
+        await firstStep(DEVICE_ID, i);
+    }
+    console.log("________________________________________________________");
+    console.log("\n\n\nlet's test "+ cycles+ " time the ECC_DH key exchange");
+    for (let i = 0; i < cycles; i++) {
+        await doECCDH(DEVICE_ID, i)
+    }
+
+}
+
+start(10)

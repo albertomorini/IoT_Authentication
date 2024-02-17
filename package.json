@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "eccrypto": "^1.1.6"
+    "eccrypto": "^1.1.6",
+    "moment": "^2.30.1"
   }
 }
