@@ -7,7 +7,7 @@ const eccrypto = require('eccrypto'); // for Elliptic curve cryptography
 const privateKey = eccrypto.generatePrivate(); // "private key" of ECC DH
 const publicKey = eccrypto.getPublic(privateKey); // public key of ECC DH 
 
-const alg = "AES256" // algorithm used to encrypt
+const alg = "AES128" // algorithm used to encrypt
 
 const DEVICE_ID = "toyota";
 const KEYS = fs.readFileSync("./secretVault.txt");;
@@ -120,8 +120,6 @@ function firstStep(deviceID, sessionID) {
     }).then(async res => { // receive the first challenge "M2"
 
         console.time("secondStep")
-        var start = Date.now()
-
         let k1 = ExecXOR(res.indexKeys); //to the xor of C1(=indexKeys)
 
         let t1 = GetRandomInt();
@@ -183,7 +181,6 @@ async function start(cycles){
     for (let i = 0; i < cycles; i++) {
         await doECCDH(DEVICE_ID, i)
     }
-
 }
 
 start(10)

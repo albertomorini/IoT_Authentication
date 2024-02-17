@@ -1,0 +1,101 @@
+node client.js 
+secp256k1 unavailable, reverting to browser version
+________________________________________________________
+	 Test 10 time the algorithm of the paper
+(node:92613) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+(Use `node --trace-warnings ...` to show where the warning was created)
+secondStep: 1.095ms
+fourthStep: 0.158ms
+Session t: 224
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTAW/:PAPERIOTAUTH_{PULPFICTION_KILLBILL_RESERVOIRDOGS}
+secondStep: 0.414ms
+fourthStep: 0.034ms
+Session t: 101
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTAW/:PAPERIOTAUTH_{PULPFICTION_KILLBILL_RESERVOIRDOGS}
+secondStep: 0.301ms
+fourthStep: 0.033ms
+Session t: 249
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTAW/:PAPERIOTAUTH_{PULPFICTION_KILLBILL_RESERVOIRDOGS}
+secondStep: 0.239ms
+fourthStep: 0.035ms
+Session t: 24
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTAW/:PAPERIOTAUTH_{PULPFICTION_KILLBILL_RESERVOIRDOGS}
+secondStep: 0.244ms
+fourthStep: 0.034ms
+Session t: 126
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTAW/:PAPERIOTAUTH_{PULPFICTION_KILLBILL_RESERVOIRDOGS}
+secondStep: 0.312ms
+fourthStep: 0.026ms
+Session t: 4
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTAW/:PAPERIOTAUTH_{PULPFICTION_KILLBILL_RESERVOIRDOGS}
+secondStep: 0.268ms
+fourthStep: 0.024ms
+Session t: 91
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTAW/:PAPERIOTAUTH_{PULPFICTION_KILLBILL_RESERVOIRDOGS}
+secondStep: 0.236ms
+fourthStep: 0.021ms
+Session t: 238
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTAW/:PAPERIOTAUTH_{PULPFICTION_KILLBILL_RESERVOIRDOGS}
+secondStep: 0.24ms
+fourthStep: 0.085ms
+Session t: 60
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTAW/:PAPERIOTAUTH_{PULPFICTION_KILLBILL_RESERVOIRDOGS}
+secondStep: 0.249ms
+fourthStep: 0.028ms
+Session t: 10
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTAW/:PAPERIOTAUTH_{PULPFICTION_KILLBILL_RESERVOIRDOGS}
+________________________________________________________
+
+
+
+let's test 10 time the ECC_DH key exchange
+ECC_KeyExc: 15.393ms
+ECCDH secret shared key is: f1e7642f890556dc0b54f5e6aa36fb9c2b6d74fa6a80412ef63e3ab67134a3f9
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTA_W/:ECCDH_{AKIRA_BERSERK_INVINCIBLE}
+ECC_KeyExc: 10.54ms
+ECCDH secret shared key is: f1e7642f890556dc0b54f5e6aa36fb9c2b6d74fa6a80412ef63e3ab67134a3f9
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTA_W/:ECCDH_{AKIRA_BERSERK_INVINCIBLE}
+ECC_KeyExc: 11.09ms
+ECCDH secret shared key is: f1e7642f890556dc0b54f5e6aa36fb9c2b6d74fa6a80412ef63e3ab67134a3f9
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTA_W/:ECCDH_{AKIRA_BERSERK_INVINCIBLE}
+ECC_KeyExc: 3.145ms
+ECCDH secret shared key is: f1e7642f890556dc0b54f5e6aa36fb9c2b6d74fa6a80412ef63e3ab67134a3f9
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTA_W/:ECCDH_{AKIRA_BERSERK_INVINCIBLE}
+ECC_KeyExc: 3.152ms
+ECCDH secret shared key is: f1e7642f890556dc0b54f5e6aa36fb9c2b6d74fa6a80412ef63e3ab67134a3f9
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTA_W/:ECCDH_{AKIRA_BERSERK_INVINCIBLE}
+ECC_KeyExc: 3.125ms
+ECCDH secret shared key is: f1e7642f890556dc0b54f5e6aa36fb9c2b6d74fa6a80412ef63e3ab67134a3f9
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTA_W/:ECCDH_{AKIRA_BERSERK_INVINCIBLE}
+ECC_KeyExc: 2.858ms
+ECCDH secret shared key is: f1e7642f890556dc0b54f5e6aa36fb9c2b6d74fa6a80412ef63e3ab67134a3f9
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTA_W/:ECCDH_{AKIRA_BERSERK_INVINCIBLE}
+ECC_KeyExc: 2.703ms
+ECCDH secret shared key is: f1e7642f890556dc0b54f5e6aa36fb9c2b6d74fa6a80412ef63e3ab67134a3f9
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTA_W/:ECCDH_{AKIRA_BERSERK_INVINCIBLE}
+ECC_KeyExc: 2.62ms
+ECCDH secret shared key is: f1e7642f890556dc0b54f5e6aa36fb9c2b6d74fa6a80412ef63e3ab67134a3f9
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTA_W/:ECCDH_{AKIRA_BERSERK_INVINCIBLE}
+ECC_KeyExc: 3.056ms
+ECCDH secret shared key is: f1e7642f890556dc0b54f5e6aa36fb9c2b6d74fa6a80412ef63e3ab67134a3f9
+		 --- Server data --- 
+ > FROM_DEVICEID:TOYOTA_W/:ECCDH_{AKIRA_BERSERK_INVINCIBLE}
