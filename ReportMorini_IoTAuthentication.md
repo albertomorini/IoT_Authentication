@@ -27,6 +27,7 @@ The source code is available on GitHub: https://github.com/albertomorini/IoT_Aut
   - [ECC-DH](#ecc-dh)
   - [Performance Analysis](#performance-analysis)
   - [Conclusions](#conclusions)
+    - [Reference links](#reference-links)
 
 
 <div style="page-break-after: always;"></div>
@@ -46,7 +47,7 @@ Server will implement the HTTPS protocol, using a self-signed certificate.
 The packets will have a JSON content-type and in each there will be some metadata used by server.
 ```JSON
 {
-  "alg": the cryptography algorithm selected (AES128/AES256/ECC),
+  "alg": the cryptography algorithm selected (AES128, AES256, ECC),
   "deviceID": the id of the device,
   "sessionID": the session ID,
   "message": ~data~
@@ -57,6 +58,7 @@ Once the shared key has been generated, client will send a string (secret messag
 
 
 ![Alt text](img/Panoramic.png)
+*Fig.1 Concept of designed architecture*
 
 In this project has been implemented two method for key exchange: the "3 way handshake" ideated in the paper in replication, and Elliptic Curve with Diffie-Hellman (as a comparison).
 
@@ -66,6 +68,8 @@ Furthermore, the encryption can be chosen between AES-128 and AES-256.
 
 Instead for the ECC method, aren't required any initials configurations.
 
+
+<div style="page-break-after: always;"></div>
 
 ### Technical specification
 
@@ -81,6 +85,7 @@ To implement the required functions, have been used standard libraries except fo
 
 Test and analysis have been made on: Mac Mini M1 (2020) - 8gb of RAM.
 
+<div style="page-break-after: always;"></div>
 
 ## Authentication Mechanism
 
@@ -100,6 +105,8 @@ Where:
 - **C1**: is a set of 'p' distinct numbers
   -  and each number is an index in the secure vault (shared/known to both entity)
 -  **r1**: is a random number
+
+<div style="page-break-after: always;"></div>
 
 
 ### Step 3
@@ -129,12 +136,13 @@ Then, client sent to the server the challenge M3.
 
 > NB: the "||" is the concatenation operation (assumed with a sentinel character, in this replication won't be needed thanks to JSON content-type of packages).
 
+<div style="page-break-after: always;"></div>
 
 ### Step 4
 
 At this point, server have received M3, which can be decrypted with key `k1`.
 
-Then, server can `k2` by making a xor operation of 'C2'. After, can finally generate the last challenge called M4.
+Then, server can retrieve `k2` by making a xor operation of 'C2'. After, can finally generate the last challenge called M4.
 
 $$M4= Enc( k2 \oplus t1 ,(r2 || t2))$$
 
@@ -147,6 +155,7 @@ Where
 
 So, the server will replay the client with the challenge M4, containing 't2' which will be used for another "xor" operation with "t1" to generate the final shared session key.
 
+<div style="page-break-after: always;"></div>
 
 ## ECC-DH
 
@@ -155,60 +164,78 @@ As said before, in this project has been implemented also a key-exchange made wi
 In this case, client have to know the "public key" of the server, thus to derive the shared secret key. And vice-versa, the server.
 
 ![Alt text](img/ECC_Panoramic.png)
+*Fig2. ECC-DH Panoramic flowchart*
 
 To share the public key, is just needed one request.
-- So, the client send the first HTTPS message to the server including it's public key.
-- Server, at this point will response with it's public key, and can already compute the shared key
-- The client as soon as get the response, will elaborate the shared key 
+1. So, the client send the first HTTPS message to the server including it's public key.
+2. Server, at this point will response with it's public key, and can already compute the shared key
+3. The client as soon as get the response, will retrieve too the shared key 
 
+<div style="page-break-after: always;"></div>
 
 ## Performance Analysis
 
-Testing had not been made on IoT device, instead on the same PC which makes the server (due to technical availability and rapidity development).
+Testing had not been made on IoT device, instead on the same PC which makes the server (due to technical availability and rapidity of development).
 
 Both mechanism have been tested "n" times, thus to compute an average value of the time spent on key exchanging.
 
-> In ECC mode, the firsts tests take a lot more time then the following ones. This probably caused to NodeJS to bring the library "eccrypto" into the cache of the PC, the values will be removed (outliers removing).
+In the three way handshake have been implemented two stopwatch one for each step ([First](#step-1) and [Third](#step-3)), they must be summed up together thus to get the total time of key exchange.
+
+Instead, in ECC mode, the firsts tests takes a lot more time then the following ones. This is probably caused by NodeJS bringing the library used ("eccrypto") into the cache, those values will be removed (outliers removing).
 
 The average time is:
 
+- **Paper's authentication with AES128**: 0.4076 ms
+- **Paper's authentication with AES256**: 0.3981 ms
+- **ECC with outliers**: 8.5564 ms
+- **ECC without outliers**:3.0761428571428575 ms
 
-1. Paper's authentication with AES128: 0.40759999999999985
-2. Paper's authentication with AES256: 0.3981 ms
-3. ECC with outliers: 8.5564 ms
-4. ECC without outliers :3.0761428571428575 ms
+> The full terminal's output is on folder "data"
 
+Notice that the time obtained in the "three way" method is significantly less than what was obtained in the paper, this is clearly due to the difference of the technical specifications (Mac Mini M1 - Arduino).
+Curiously ECC method has pretty much the same results.
 
-Notice that the method ideated in the paper gives a very smaller time compared to the one tested in the paper, this because in the paper has been used an Arduino (which has a lot weaker resource compared to Mac Mini M1).
-
-Curiously ECC method has pretty much the same results (just 1 ms of difference)
-
-
-Anyway, in the paper has been used an analysys of consumtion of another paper (INSERT LINK).
-
-So, replicating we have
+<div style="page-break-after: always;"></div>
 
 
-Algorithm | Average time | Energy Consumed
---|---|---
-AES128 | a | a
-AES256 | a | a
-ECCDH | a | a
+Anyway, in the paper is used an "Analysis of energy consumption" designed in another <a href="https://ieeexplore.ieee.org/abstract/document/1258477">paper</a>, which consists in:
+
+> Their method stipulates that the total energy consumed is the product of average current drawn by the hardware, voltage provided to the hardware and the average time taken by the algorithm to execute
+
+So in this case Mac Mini M1 has a line voltage between 100 and 240V (AC), and at max CPU usage use 39,9 Watt with 6,9 in IDLE.
+So, assuming a voltage of 220V and an average of 16 Watt, we have:
+
+$16/220 * 100= 2,27\  mA$
+
+Then:
 
 
+| Algorithm           | Average time | Energy Consumed |
+| ------------------- | ------------ | --------------- |
+| AES128              | 0.4076 ms    | 203.55 µJ       |
+| AES256              | 0.3981 ms    | 198.81 µJ       |
+| ECCDH (w/ outliers) | 8.5564 ms    | 4273.06 µJ      |
+| ECCDH               | 3.0761 ms    | 1536.20 µJ      |
 
-
-
-
-
-
-------
-
-
+<div style="page-break-after: always;"></div>
 
 
 ## Conclusions
-https://www.rapidtables.com/calc/electric/Watt_to_Amp_Calculator.html
-https://support.apple.com/kb/SP823?locale=en_US
 
-<!-- ATTENZIONE: ti sei accorto che il timer global è inutile, esegui in ECC e capisci -->
+In conclusion, some critical thought about the system created.
+
+- Using an external library for ECC method could increase the complexity and then require more time on key exchanging. 
+- The method ideated in the paper as shown by the data, is more efficiency and solid enough. But, require a known and pre-shared secret vault, which represent an asset to protect.
+
+As said on the previous section, the algorithms have been tested several time (exactly 10 times) thus to be able to gain an average value.
+
+
+### Reference links
+
+- Mac Mini consumption 
+  - https://support.apple.com/kb/SP823?locale=en_US
+  - https://support.apple.com/en-us/103253
+- NodeJS: https://nodejs.org/en
+  - Eccrypto library: https://www.npmjs.com/package/eccrypto
+- Paper in replication: https://ieeexplore.ieee.org/document/8455985
+  - Paper for analysis consumption: https://ieeexplore.ieee.org/abstract/document/1258477

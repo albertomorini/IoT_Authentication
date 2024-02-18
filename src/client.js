@@ -174,12 +174,12 @@ async function start(cycles){
     console.log("________________________________________________________");
     console.log("\t Test "+ cycles+ " time the algorithm of the paper");
     for (let i = 0; i < cycles; i++) {
-        await firstStep(DEVICE_ID, i);
+        await firstStep(DEVICE_ID, i); //wait for method to end before another request
     }
     console.log("________________________________________________________");
     console.log("\n\n\nlet's test "+ cycles+ " time the ECC_DH key exchange");
     for (let i = 0; i < cycles; i++) {
-        await doECCDH(DEVICE_ID, i)
+        await doECCDH(DEVICE_ID, i); //wait for method to end before another request
     }
 }
 
