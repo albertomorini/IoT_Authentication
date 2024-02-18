@@ -1,4 +1,4 @@
-//Alberto Morini - 4 Feb 2024 @ 00:31
+//key generation class (for secret vault) - Alberto Morini - 4 Feb 2024 @ 00:31
 const fs = require("fs");
 
 /**

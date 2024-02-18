@@ -183,4 +183,4 @@ async function start(cycles){
     }
 }
 
-start(10)
+start(10);
